@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Magic Keyboard Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+<style>
+kbd {
+    font-size: 14px;
+    color: #555;
+    display: inline-block;
+    padding: 0 8px;
+    text-align: center;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F5F5F5), to(#EEE));
+    background-image: -webkit-linear-gradient(#F5F5F5 0%, #EEE 100%);
+    background-image:    -moz-linear-gradient(#F5F5F5 0%, #EEE 100%);
+    background-image:      -o-linear-gradient(#F5F5F5 0%, #EEE 100%);
+    background-image:         linear-gradient(#F5F5F5 0%, #EEE 100%);
+    border: 1px solid #CCC;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 0 #FFF, 0 1px 0 #CCC;
+            box-shadow: inset 0 1px 0 #FFF, 0 1px 0 #CCC;
+}
+body > .container {
+    padding-top: 58px;
+}
+</style>
+<body data-spy="scroll" data-target=".navbar">
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Magic Keyboard</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#magichelp">Magic Help</a></li>
+            <li><a href="#pageshortcuts">Page shortcuts</a></li>
+            <li><a href="#listactions">List actions</a></li>
+            <li><a href="#pageactions">Page actions</a></li>
+            <li><a href="#custom">Custom</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+<div class="container">
+  <div class="header">
+    <h1>Magic Keyboard Demo</h1>
+  </div>
+
+
+
+<p>This demo uses bootstrap just for ease, but this is mostly irrelevant</p>
+<p>All css is embedded in this demo itself as an example, generally you roll your own to fit your own app styles</p>
+
+<h2 id="magichelp">Magic help</h2>
+<p>Get awesome keyboard shortcut help 100% for free. Just press <kbd>?</kbd> on any page to show help customised to the exact keyboard actions that are availale on this page.</p>
+
+<h4>Disabled shortcuts</h4>
+<p>Sometimes you want to show that an action is generally available, but not on this particular page.</p>
+<pre>
+<code>&lt;div <b>data-mk-disabled="q"</b> title="Logout of this application"&gt;&lt;/div&gt;</code>
+</pre>
+
+<div data-mk-disabled="q" title="Logout of this application"></div>
+
+<h2 id="pageshortcuts">Page shortcuts, eg search</h2>
+<p>Add a <code>data-mk-*</code> attribute to any element, and it will wire up a * event when that key is pressed. The magic help system will look at the text, value, or title of that element to generate the help text.</p>
+<p>Press the ubiquitous <kbd>/</kbd> key to focus on the search</p>
+<p>It would look for a label, or a title attribute on the element to auto generate the help text</p>
+<pre><code>&lt;input type="search" <b>data-mk-focus="/"</b> placeholder="Look for stuff"&gt;</code></pre>
+
+<form class="form-inline" role="form">
+  <div class="form-group">
+    <label class="sr-only" for="search">Search</label>
+    <input type="search" data-mk-focus="/" class="form-control" id="search" placeholder="Look for stuff">
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<p>Another common example would be navigating to a next or previous page. The a </p>
+
+<pre><code>&lt;a <b>data-mk-click="&lt;"</b> href="?prev"&gt;Previous page&lt;/a&gt;</code></pre>
+
+<div class="btn-group">
+<a data-mk-click="<" class="btn btn-default" href="?prev">&lt; Previous page</a>
+<a data-mk-click=">" class="btn btn-default" href="?next">Next page &gt;</a>
+</div>
+
+
+
+
+
+<h2 id="listactions">Lists actions</h2>
+
+<p>Often you have a main list of 'things', email in gmail, issues in github issues or jira, etc. First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd> keys, and then when on is selected do stuff to it, like select it with <kbd>space</kbd>, 
+<p>Nav to issues, toggle one as 'read' with <kbd>r</kbd>, or select
+<ul data-mk-list="li" data-mk-click=" =>" class="list-group">
+
+<li class="list-group-item"><input type="checkbox"> This is email #1
+<li class="list-group-item"><input type="checkbox"> This is email #2
+<li class="list-group-item"><input type="checkbox"> This is email #3
+<li class="list-group-item"><input type="checkbox"> This is email #4
+<li class="list-group-item"><input type="checkbox"> This is email #5
+<li class="list-group-item"><input type="checkbox"> This is email #6
+
+</ul>
+<p>Note that magic keyboard is only forwarding key events into other events like click, and then handled by whatever logic you already have in place, so there is usually no code.</p>
+<p>Here the <kbd>space</kbd> key is translated in to a <code>$(this).find('input').click();</code>
+
+
+
+
+<h2 id="pageactions">Page actions</h2>
+<p>This was inspired by Jira, just press <kbd>.</kbd> or <kbd>,</kbd> key to bring up a search box of actions that can be applies to this page.</p>
+<p>You can declare an link, button, or form to be a page actions by adding the <code>data-mk-action</code> attribute to it, or to it's ancestor. So you could add it to the root element of a drop down menu to attach all the items in it.</p>
+
+
+<pre><code>&lt;div <b>data-mk-action</b>&gt;
+&lt;a class="btn" href="#"&gt;Send to cleaners&lt;/a&gt;
+&lt;a class="btn" href="#"&gt;Send to dog minder&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+
+<div data-mk-actions>
+<a class="btn" href="#">Send to cleaners</a>
+<a class="btn" href="#">Send to dog minder</a>
+</div>
+
+
+
+<h2 id="custom">Custom shortcuts</h2>
+<p>You may already have some keyboard support, or the magic stuff just isn't magic enough.</p>
+<p>But you still want these to appear in the magic help screen, so you can declare actionless things like this:</p>
+<pre><code>&lt;div data-mk-noop="*" title="This does something real complex"&gt;&lt;/div&gt;</code></pre>
+<div data-mk-noop="*" title="This does something real complex"></div>
+
+
+<h2 id="feedback">Feedback</h2>
+
+<p><a href="">
+
+
+</div><!-- end .container -->
+
+<script src="bootstrap/assets/js/jquery.js"></script>
+<script src="bootstrap/dist/js/bootstrap.js"></script>
+</body>
+</html>

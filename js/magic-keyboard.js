@@ -80,8 +80,6 @@
     mk.register('disabled');
     mk.register('noop');
 
-
-
     Mousetrap.bind('?', function(e){
 
         // If modal is open then cancel
@@ -92,6 +90,20 @@
         $.showHelp();
         return false;
 
+    });
+    Mousetrap.bindGlobal('esc', function(e){
+        var $e = $(e.target);
+        var tag = $e.prop("tagName");
+        // if we're in an input
+        if (tag === 'INPUT' || tag === 'TEXTAREA'){
+            // if where in an input and it's empty then blur it
+            if ($e.val() ==''){
+                $e.blur();
+            // or reset it (default browser behaviour)
+            } else {
+                $e.val('');
+            }
+        }
     });
 
 

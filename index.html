@@ -70,9 +70,12 @@ body > .container {
 <div class="container">
   <div class="header">
 <div class="jumbotron ">
-    <h1>Magic Keyboard</h1>
+    <h1 style="color: #B31EEC;">Magic Keyboard</h1>
+<kbd>M</kbd> <kbd>a</kbd> <kbd>g</kbd> <kbd>i</kbd> <kbd>c</kbd>
+<kbd>&nbsp;</kbd>
+<kbd>K</kbd> <kbd>e</kbd> <kbd>y</kbd> <kbd>b</kbd> <kbd>o</kbd> <kbd>a</kbd> <kbd>r</kbd> <kbd>d</kbd> 
 <p>Easily build or retrofit awesome keyboard navigation into your app with minimal markup and no code<p>
-<p>BONUS: best of all get a keyboard shortcut help modal for free.</p>
+<p>BONUS: get automatically generated help modal for free!</p>
 </div>
   </div>
 <p>If uses:</p>
@@ -170,10 +173,11 @@ $('#alert').click(function(){
 
 
 <h2 id="custom">Custom shortcuts</h2>
-<p>You may already have some keyboard support, or the magic stuff just isn't magic enough.</p>
-<p>But you still want these to appear in the magic help screen, so you can declare actionless things like this:</p>
-<pre><code>&lt;div data-mk-noop="*" title="This does something real complex"&gt;&lt;/div&gt;</code></pre>
-<div data-mk-noop="*" title="This does something real complex"></div>
+<p>You may already have some keyboard support, or the magic stuff just isn't magic
+ enough. But you still want these to appear in the generated help screen, so you can
+ declare these with no side effects like this:</p>
+<pre><code>&lt;div <b>data-mk-noop="ctrl+alt+del"</b> title="Some non-magical keyboard shortcut"&gt;&lt;/div&gt;</code></pre>
+<div data-mk-noop="ctrl+alt+del" title="Some non-magical keyboard shortcut"></div>
 
 
 <h2 id="feedback">Feedback</h2>

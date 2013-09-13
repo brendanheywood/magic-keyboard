@@ -78,6 +78,7 @@
     mk.register('focus');
     mk.register('click');
     mk.register('disabled');
+    mk.register('noop');
 
 
 

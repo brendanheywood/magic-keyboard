@@ -28,12 +28,12 @@
 ');
             var help = '';
             $.each(mk.shortcuts, function(i,e){
-                help += '<div class="row">'
-                      + '<div class="col-md-1"><kbd>'+e.key+'</kbd></div>'
-                      + '<div class="col-md-6">'+e.help+'</div>'
-                      + '</div>'
+                help += '<tr>'
+                      + '<td><kbd>'+e.key+'</kbd></td>'
+                      + '<td>'+e.help+'</td>'
+                      + '</tr>'
             });
-            mk.helpEl.find('.modal-body').append(help);
+            mk.helpEl.find('.modal-body').append('<table class="help">'+help+'</table>');
             mk.helpEl.on('hidden.bs.modal', function () {
                 $('#your-modal-id').modal('hide');
                 $('body').removeClass('modal-open');
@@ -60,27 +60,34 @@
             };
             if (!reg.list)
                 mk.shortcuts.push(reg);
+
+            if (reg.evt == 'click'){
+                // jQuery click events aren't quite real
+                $e.on(reg.evt, function(e){
+                    document.location = $(e.target).attr ( 'href' );
+                });
+            }
+            Mousetrap.bind(reg.key, function(e){
+                // grab event and simulate it
+                $e.trigger(reg.evt);
+                return false;
+            });
        });
     }
     mk.register('focus');
     mk.register('click');
 
 
-    $d.keyup(function(e){
 
-        // if in forms etc cancel
+    Mousetrap.bind('?', function(e){
 
         // If modal is open then cancel
         if( $.magicKeyboard.helpEl && $.magicKeyboard.helpEl.css('display') == 'block'){
             return;
         }
 
-        // The auto help '/' key
-        if (e.which == 191 && e.shiftKey) {
-            $.showHelp();
-            e.preventDefault();
-        }
-
+        $.showHelp();
+        return false;
 
     });
 

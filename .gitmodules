@@ -1,6 +1,6 @@
 [submodule "bootstrap"]
 	path = bootstrap
-	url = git@github.com:twbs/bootstrap.git
+	url = https://github.com/twbs/bootstrap.git
 [submodule "mousetrap"]
 	path = mousetrap
-	url = git@github.com:ccampbell/mousetrap.git
+	url = https://github.com/ccampbell/mousetrap.git

@@ -4,9 +4,12 @@ magic-keyboard
 Easily retrofit awesome keyboard navigation to you app with almost no code
 
 
+See the demo and docs:
+
+http://brendanheywood.github.io/magic-keyboard/
+
 This project was partially inspired by 
 
-http://www.impressivewebs.com/demo-files/question-mark-js/
 
 But I didn't simple want a nice help modal, I want the actual keyboard short cuts.
 

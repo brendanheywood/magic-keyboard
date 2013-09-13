@@ -19,9 +19,6 @@
         </div>\
         <div class="modal-body">\
         </div>\
-        <div class="modal-footer">\
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>\
-        </div>\
       </div><!-- /.modal-content -->\
     </div><!-- /.modal-dialog -->\
   </div><!-- /.modal -->\
@@ -29,8 +26,12 @@
             var help = '';
             $.each(mk.shortcuts, function(i,e){
                 help += '<tr>'
-                      + '<td><kbd>'+e.key+'</kbd></td>'
-                      + '<td>'+e.help+'</td>'
+                      + '<td><kbd>'+e.key.replace(/ /g,'</kbd> <kbd>')+'</kbd></td>'
+                      + '<td>'
+                      +  (e.evt == 'disabled' ? '<span class="disabled">' : '')
+                      + e.help
+                      +  (e.evt == 'disabled' ? '</span>' : '')
+                      + '</td>'
                       + '</tr>'
             });
             mk.helpEl.find('.modal-body').append('<table class="help">'+help+'</table>');
@@ -61,7 +62,7 @@
             if (!reg.list)
                 mk.shortcuts.push(reg);
 
-            if (reg.evt == 'click'){
+            if (reg.evt == 'click' && $e.attr('href') ){
                 // jQuery click events aren't quite real
                 $e.on(reg.evt, function(e){
                     document.location = $(e.target).attr ( 'href' );
@@ -76,6 +77,7 @@
     }
     mk.register('focus');
     mk.register('click');
+    mk.register('disabled');
 
 
 

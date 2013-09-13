@@ -3,6 +3,7 @@
 <title>Magic Keyboard Demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<script src="bootstrap/assets/js/jquery.js"></script>
 
 <style>
 kbd {
@@ -26,6 +27,18 @@ kbd {
     -webkit-box-shadow: inset 0 1px 0 #FFF, 0 1px 0 #CCC;
             box-shadow: inset 0 1px 0 #FFF, 0 1px 0 #CCC;
 }
+.help tr td:first-child {
+    text-align: right;
+    padding-right: 6px;
+}
+.disabled {
+    color: #999;
+}
+
+
+/*
+ */
+
 body > .container {
     padding-top: 58px;
 }
@@ -59,23 +72,29 @@ body > .container {
     <h1>Magic Keyboard Demo</h1>
   </div>
 
+<p>Easily retrofit or build keyboard shortcuts for your app using 100% declarative markup, and best of all get a keyboard shortcut help modal for free.</p>
 <p>This demo uses bootstrap just for ease, but this is mostly irrelevant</p>
 <p>All css is embedded in this demo itself as an example, generally you roll your own to fit your own app styles</p>
-<p>If does use jQuery, and the bootstrap modal plugin, and the excellent MouseTrap library </p>
+<p>If uses:</p>
+<ul>
+<li>jQuery
+<li>Bootstrap + the bootstrap modal plugin
+<li>the excellent MouseTrap library
+</ul>
 
 <h2 id="magichelp">Magic help</h2>
-<p>Get awesome keyboard shortcut help 100% for free. Just press <kbd>?</kbd> on any page to show help customised to the exact keyboard actions that are availale on this page.</p>
+<p>Get awesome keyboard shortcut help 100% for free. Just press <kbd>?</kbd> on any page to show help dynamically generated and customised to the exact keyboard actions that are availale on each page.</p>
 
 <h4>Disabled shortcuts</h4>
 <p>Sometimes you want to show that an action is generally available, but not on this particular page.</p>
 <pre>
-<code>&lt;div <b>data-mk-disabled="q"</b> title="Logout of this application"&gt;&lt;/div&gt;</code>
+<code>&lt;div <b>data-mk-disabled="ctrl+q"</b> title="Logout of this application"&gt;&lt;/div&gt;</code>
 </pre>
 
-<div data-mk-disabled="q" title="Logout of this application"></div>
+<div data-mk-disabled="ctrl+q" title="Logout of this application"></div>
 
 <h2 id="pageshortcuts">Page shortcuts, eg search</h2>
-<p>Add a <code>data-mk-*</code> attribute to any element, and it will wire up a * event when that key is pressed. The magic help system will look at the text, value, or title of that element to generate the help text.</p>
+<p>Add a <code>data-mk-*</code> attribute to any element, and it will wire up a click or focus event when that key is pressed. The magic help system will look at the text, value, or title of that element to generate the help text.</p>
 <p>Press the ubiquitous <kbd>/</kbd> key to focus on the search</p>
 <p>It would look for a label, or a title attribute on the element to auto generate the help text</p>
 <pre><code>&lt;input type="search" <b>data-mk-focus="/"</b> placeholder="Look for stuff"&gt;</code></pre>
@@ -88,17 +107,24 @@ body > .container {
   <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
-<p>Another common example would be navigating to a next or previous page. The a </p>
+<p>Another common example would be navigating to a next or previous page. </p>
 
 <pre><code>&lt;a <b>data-mk-click="&lt;"</b> href="?prev"&gt;Previous page&lt;/a&gt;</code></pre>
 
 <div class="btn-group">
-<a data-mk-click="<" class="btn btn-default" href="?prev">&lt; Previous page</a>
-<a data-mk-click=">" class="btn btn-default" href="?next">Next page &gt;</a>
+<a data-mk-click="<" class="btn btn-default" href="?prev"><i class="glyphicon glyphicon-chevron-left"></i> Previous page</a>
+<a data-mk-click=">" class="btn btn-default" href="?next">Next page <i class="glyphicon glyphicon-chevron-right"></i></a>
 </div>
 
 
+<p>Any of the cool features of Mousetrap are available, including key sequences. To trigger this type 'alert':</p>
 
+<button id="alert" data-mk-click="a l e r t" class="btn btn-success">Show an alert</button>
+<script>
+$('#alert').click(function(){
+    alert("Yay! You've been alerted");
+});
+</script>
 
 
 <h2 id="listactions">Lists actions</h2>
@@ -153,7 +179,6 @@ body > .container {
 
 </div><!-- end .container -->
 
-<script src="bootstrap/assets/js/jquery.js"></script>
 <script src="bootstrap/dist/js/bootstrap.js"></script>
 <script src="mousetrap/mousetrap.min.js"></script>
 <script src="js/magic-keyboard.js"></script>

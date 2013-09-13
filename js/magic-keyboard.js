@@ -7,7 +7,7 @@
 
     var $d = $(document);
 
-    $.showHelp = function(){
+    mk.showHelp = function(){
         if (!mk.helpEl){
             mk.helpEl = $('\
 <div class="modal fade" id="magic-kb-help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
@@ -75,23 +75,24 @@
             });
        });
     }
+    mk.shortcuts.push({
+        key: 'escape',
+        help: 'Back out / close / zoom out'
+    });
     mk.register('focus');
     mk.register('click');
     mk.register('disabled');
     mk.register('noop');
 
     Mousetrap.bind('?', function(e){
-
         // If modal is open then cancel
-        if( $.magicKeyboard.helpEl && $.magicKeyboard.helpEl.css('display') == 'block'){
+        if( mk.helpEl && mk.helpEl.css('display') == 'block'){
             return;
         }
-
-        $.showHelp();
+        mk.showHelp();
         return false;
-
     });
-    Mousetrap.bindGlobal('esc', function(e){
+    Mousetrap.bindGlobal('escape', function(e){
         var $e = $(e.target);
         var tag = $e.prop("tagName");
         // if we're in an input

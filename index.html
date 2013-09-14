@@ -136,28 +136,28 @@ $('#alert').click(function(){
 
 <h2 id="listactions">Lists actions</h2>
 
-<p>Often you have a main list of 'things', email in gmail, issues in github issues or jira, etc. First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd> keys, and then when on is selected do stuff to it, like select it with <kbd>space</kbd>, 
-<p>Nav to issues, toggle one as 'read' with <kbd>r</kbd>, or select
-<ul data-mk-list="li" data-mk-click=" =>" class="list-group">
-
-<li class="list-group-item"><input type="checkbox"> This is email #1
-<li class="list-group-item"><input type="checkbox"> This is email #2
-<li class="list-group-item"><input type="checkbox"> This is email #3
-<li class="list-group-item"><input type="checkbox"> This is email #4
-<li class="list-group-item"><input type="checkbox"> This is email #5
-<li class="list-group-item"><input type="checkbox"> This is email #6
-
+<p>Often you have a main list of 'things', email in gmail, issues in github issues or jira, etc.
+ First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd>
+<p> Next you want to declare you app specific actions, eg in the example below you can press <kbd>space</kbd> or <kbd>x</kbd> to toggle selection of items, <kbd>e</kbd> to focus on the input to edit it, and
+ <kbd>enter</kbd> to navigate into the item.</p>
+<p>You only need to declare these once at the list level. You can dynamically added and remove items. If you aren't focused on the list and press a list action it will auto select the first item in the first list that has that action. You can have multiple lists on the one page.</p>
+<ul data-mk-li-click="x [type=checkbox], enter a" data-mk-li-focus="e [type=text]" class="list-group">
+<li class="list-group-item"><input type="checkbox"> <a href="?email1">This is email #1</a> <input value="stuff1">
+<li class="list-group-item"><input type="checkbox"> <a href="?email2">This is email #2</a> <input value="stuff2">
+<li class="list-group-item"><input type="checkbox"> <a href="?email3">This is email #3</a> <input value="stuff3">
+<li class="list-group-item"><input type="checkbox"> <a href="?email4">This is email #4</a> <input value="stuff4">
+<li class="list-group-item"><input type="checkbox"> <a href="?email5">This is email #5</a> <input value="stuff5">
 </ul>
-<p>Note that magic keyboard is only forwarding key events into other events like click, and then handled by whatever logic you already have in place, so there is usually no code.</p>
-<p>Here the <kbd>space</kbd> key is translated in to a <code>$(this).find('input').click();</code>
-
+<p>
 
 
 
 <h2 id="pageactions">Page actions</h2>
-<p>This was inspired by Jira, just press <kbd>.</kbd> or <kbd>,</kbd> key to bring up a search box of actions that can be applies to this page.</p>
-<p>You can declare an link, button, or form to be a page actions by adding the <code>data-mk-action</code> attribute to it, or to it's ancestor. So you could add it to the root element of a drop down menu to attach all the items in it.</p>
-
+<p>This was inspired by Jira, just press <kbd>.</kbd> or <kbd>,</kbd> key to bring up a search box of actions
+ that can be applies to this page. All existing shortcuts are automatically available in this list of actions,
+ but yYou can declare an link, button, or form to be a page actions by adding the <code>data-mk-action</code>
+ attribute to it, or to it's ancestor. So you could add it to the root element of a drop down menu to attach
+ all the items in it.</p>
 
 <pre><code>&lt;div <b>data-mk-action</b>&gt;
 &lt;a class="btn" href="#"&gt;Send to cleaners&lt;/a&gt;

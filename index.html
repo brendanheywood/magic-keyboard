@@ -34,7 +34,15 @@ kbd {
 .disabled {
     color: #999;
 }
-
+.mk-focus:before {
+    position: absolute;
+    top: 0;
+    width: 5px;
+    background: #428BCA;
+    content: ' ';
+    bottom: 0;
+    left: 0;
+}
 
 /*
  */
@@ -75,8 +83,11 @@ body > .container {
 <kbd>M</kbd> <kbd>a</kbd> <kbd>g</kbd> <kbd>i</kbd> <kbd>c</kbd>
 <kbd>&nbsp;</kbd>
 <kbd>K</kbd> <kbd>e</kbd> <kbd>y</kbd> <kbd>b</kbd> <kbd>o</kbd> <kbd>a</kbd> <kbd>r</kbd> <kbd>d</kbd> 
+
 <p>Easily build or retrofit awesome keyboard navigation into your app with minimal markup and no code<p>
+
 <p>BONUS: get automatically generated help modal for free!</p>
+
 </div>
   </div>
 <p>If uses:</p>
@@ -88,13 +99,17 @@ body > .container {
 </ul>
 
 <p>I was also inspired by and borrowed some styles from: 
+
 <a target="_blank" href="http://www.impressivewebs.com/demo-files/question-mark-js/">http://www.impressivewebs.com/demo-files/question-mark-js/</a></p>
 
 <h2 id="magichelp">Magic help</h2>
+
 <p>Get awesome keyboard shortcut help 100% for free. Just press <kbd>?</kbd> on any page to show help dynamically generated and customised to the exact keyboard actions that are availale on each page.</p>
 
 <h4>Disabled shortcuts</h4>
+
 <p>Sometimes you want to show that an action is generally available, but not on this particular page.</p>
+
 <pre>
 <code>&lt;div <b>data-mk-disabled="ctrl+q"</b> title="Logout of this application"&gt;&lt;/div&gt;</code>
 </pre>
@@ -102,9 +117,13 @@ body > .container {
 <div data-mk-disabled="ctrl+q" title="Logout of this application"></div>
 
 <h2 id="pageshortcuts">Page shortcuts, eg search</h2>
+
 <p>Add a <code>data-mk-*</code> attribute to any element, and it will wire up a click or focus event when that key is pressed. The magic help system will look at the text, value, or title of that element to generate the help text.</p>
+
 <p>Press the ubiquitous <kbd>/</kbd> key to focus on the search</p>
+
 <p>It would look for a label, or a title attribute on the element to auto generate the help text</p>
+
 <pre><code>&lt;input type="search" <b>data-mk-focus="/"</b> placeholder="Look for stuff"&gt;</code></pre>
 
 <form class="form-inline" role="form">
@@ -123,6 +142,7 @@ body > .container {
 <a data-mk-click="</p" class="btn btn-default" href="?prev"><i class="glyphicon glyphicon-chevron-left"></i> Previous page</a>
 <a data-mk-click=">/n" class="btn btn-default" href="?next">Next page <i class="glyphicon glyphicon-chevron-right"></i></a>
 </div>
+
 <p>This example also demonstrates another feature, you can declare more than one keyboard shortcut by
  seperating them with a <code>/</code>. Note that you can still register <kbd>/</kbd> to mean something,
  typically focus on search, but you can't use / in a multi charcter sequence, but this is a probably good thing. </p>
@@ -139,35 +159,41 @@ $('#alert').click(function(){
 <h2 id="listactions">Lists actions</h2>
 
 <p>Often you have a main list of 'things',eg emails in gmail, issues in github or jira, etc.
- First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd>
-<p> Next you want to declare you app specific actions, eg in the example below you can press <kbd>space</kbd>
- or <kbd>x</kbd> to toggle selection of items, <kbd>e</kbd> to focus on the input to edit it, and
- <kbd>enter</kbd> to navigate into the item.</p>
+ First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd>.
+
+<p> Next you want to declare your app specific actions in the context of the selected item. eg in the example below you can press <kbd>space</kbd>
+ or <kbd>x</kbd> to toggle selection of the current item, <kbd>e</kbd> to focus on it's input to edit it, and
+ <kbd>enter</kbd> to navigate into the item's link.</p>
+
 <p>You only need to declare these once at the list level. You can dynamically added and remove items.
  If you aren't focused on the list and press a list action it will auto select the first item in the
  first list that has that action. You can have multiple lists on the one page. Note that it doesn't have
 to be a <code>&lt;ul&gt;</code> element, it can be anything.</p>
+
 <p>You can for each event type a map between shortcuts and a selector that the event will be applied to.</p>
 
-<pre><code>&lt;ul <b>data-mk-list="" data-mk-click="enter a"</b>&gt;</code></pre>
+<pre><code>&lt;ul <b>data-mk-list="email" data-mk-click="enter a"</b>&gt;</code></pre>
+
 <p>You can map multiple click handlers to selectors separated with a /:</p>
-<pre><code>&lt;ul <b>data-mk-list="" data-mk-click="enter a / t [type=checkbox]"</b>&gt;</code></pre>
+
+<pre><code>&lt;ul <b>data-mk-list="email" data-mk-click="enter a / t [type=checkbox]"</b>&gt;</code></pre>
 
 <p> If the selectors are simple just seperate with a space, if you want a combo shortcut, or use a selected
  with more than ne component separate the shortcut and the selector with a comma</p>
-<pre><code>&lt;ul <b>data-mk-list="" data-mk-focus="o m g, .child .grandchild"</b>&gt;</code></pre>
-<ul data-mk-list data-mk-click="t [type=checkbox] / enter a" data-mk-focus="e [type=text]" class="list-group">
+
+<pre><code>&lt;ul <b>data-mk-list="issues" data-mk-focus="o m g, .child .grandchild"</b>&gt;</code></pre>
+
+<ul data-mk-list="email" data-mk-click="t [type=checkbox] / enter a" data-mk-focus="e [type=text]" class="list-group">
 <li class="list-group-item"><input type="checkbox"> <a href="?email1">This is email #1</a> <input value="stuff1">
 <li class="list-group-item"><input type="checkbox"> <a href="?email2">This is email #2</a> <input value="stuff2">
 <li class="list-group-item"><input type="checkbox"> <a href="?email3">This is email #3</a> <input value="stuff3">
 <li class="list-group-item"><input type="checkbox"> <a href="?email4">This is email #4</a> <input value="stuff4">
 <li class="list-group-item"><input type="checkbox"> <a href="?email5">This is email #5</a> <input value="stuff5">
 </ul>
-<p>
-
 
 
 <h2 id="pageactions">Page actions</h2>
+
 <p>This was inspired by Jira, just press <kbd>.</kbd> or <kbd>,</kbd> key to bring up a search box of actions
  that can be applied to this page. All existing shortcuts are automatically available in this list of actions,
  but you can declare an link, button, or form to be a page action by adding the <code>data-mk-action</code>
@@ -194,17 +220,22 @@ to be a <code>&lt;ul&gt;</code> element, it can be anything.</p>
 
 
 <h2 id="custom">Custom shortcuts</h2>
+
 <p>You may already have some keyboard support, or the magic stuff just isn't magic
  enough so you roll some stuff using MouseTrap directly or something else entirely. But you still want these
 shortcuts to appear in the generated help screen along with everything else. You can
  declare these external shortcuts like this:</p>
+
 <pre><code>&lt;div <b>data-mk-noop="ctrl+alt+del"</b> title="Some non-magical keyboard shortcut"&gt;&lt;/div&gt;</code></pre>
+
 <div data-mk-noop="ctrl+alt+del" title="Some non-magical keyboard shortcut"></div>
 
 
 <h2 id="feedback">Feedback</h2>
 
-<p><a href="">
+<p>Grab the magic here:
+<p><a href="https://github.com/brendanheywood/magic-keyboard">https://github.com/brendanheywood/magic-keyboard</a></p>
+
 
 
 </div><!-- end .container -->

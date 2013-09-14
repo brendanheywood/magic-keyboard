@@ -140,10 +140,23 @@ $('#alert').click(function(){
 
 <p>Often you have a main list of 'things', email in gmail, issues in github issues or jira, etc.
  First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd>
-<p> Next you want to declare you app specific actions, eg in the example below you can press <kbd>space</kbd> or <kbd>x</kbd> to toggle selection of items, <kbd>e</kbd> to focus on the input to edit it, and
+<p> Next you want to declare you app specific actions, eg in the example below you can press <kbd>space</kbd>
+ or <kbd>x</kbd> to toggle selection of items, <kbd>e</kbd> to focus on the input to edit it, and
  <kbd>enter</kbd> to navigate into the item.</p>
-<p>You only need to declare these once at the list level. You can dynamically added and remove items. If you aren't focused on the list and press a list action it will auto select the first item in the first list that has that action. You can have multiple lists on the one page.</p>
-<ul data-mk-list data-mk-click="t [type=checkbox] , enter a" data-mk-focus="e [type=text]" class="list-group">
+<p>You only need to declare these once at the list level. You can dynamically added and remove items.
+ If you aren't focused on the list and press a list action it will auto select the first item in the
+ first list that has that action. You can have multiple lists on the one page. Note that it doesn't have
+to be a <code>&lt;ul&gt;</code> element, it can be anything.</p>
+<p>You can for each event type a map between shortcuts and a selector that the event will be applied to.</p>
+
+<pre><code>&lt;ul <b>data-mk-list="" data-mk-click="enter a"</b>&gt;</code></pre>
+<p>You can map multiple click handlers to selectors separated with a /:</p>
+<pre><code>&lt;ul <b>data-mk-list="" data-mk-click="enter a / t [type=checkbox]"</b>&gt;</code></pre>
+
+<p> If the selectors are simple just seperate with a space, if you want a combo shortcut, or use a selected
+ with more than ne component separate the shortcut and the selector with a comma</p>
+<pre><code>&lt;ul <b>data-mk-list="" data-mk-focus="o m g, .child .grandchild"</b>&gt;</code></pre>
+<ul data-mk-list data-mk-click="t [type=checkbox] / enter a" data-mk-focus="e [type=text]" class="list-group">
 <li class="list-group-item"><input type="checkbox"> <a href="?email1">This is email #1</a> <input value="stuff1">
 <li class="list-group-item"><input type="checkbox"> <a href="?email2">This is email #2</a> <input value="stuff2">
 <li class="list-group-item"><input type="checkbox"> <a href="?email3">This is email #3</a> <input value="stuff3">

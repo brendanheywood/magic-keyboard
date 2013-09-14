@@ -174,14 +174,17 @@ $('#alert').click(function(){
 
 <h2 id="escape">Universal escape</h2>
 
-<p>The <kbd>escape</kbd> button should be the universal 'back out' button, like the iPhone home button. 
- It is overridden so if you are in an input and hit it, it blurs the input WITHOUT removing it's value. If you are inside a list then it focuses on the list item. If you hit it again that blurs so you are at the 'screen' level. 
+<p>The <kbd>escape</kbd> button should be the universal 'back out 1 level' button, like the iPhone home button. 
+ It is overridden so if you are in an input and hit it, it blurs the input WITHOUT removing it's value. If you
+ are inside a list then it focuses on the list item. If you hit it again that blurs so you are at the 'screen'
+ level. Only then will any custom escape handler you've registered get exectued.</p> 
 
 
 <h2 id="custom">Custom shortcuts</h2>
 <p>You may already have some keyboard support, or the magic stuff just isn't magic
- enough. But you still want these to appear in the generated help screen, so you can
- declare these with no side effects like this:</p>
+ enough so you roll some stuff using MouseTrap directly or something else entirely. But you still want these
+shortcuts to appear in the generated help screen along with everything else. You can
+ declare these external shortcuts like this:</p>
 <pre><code>&lt;div <b>data-mk-noop="ctrl+alt+del"</b> title="Some non-magical keyboard shortcut"&gt;&lt;/div&gt;</code></pre>
 <div data-mk-noop="ctrl+alt+del" title="Some non-magical keyboard shortcut"></div>
 

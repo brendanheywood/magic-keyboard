@@ -26,7 +26,12 @@
             var help = '';
             $.each(mk.shortcuts, function(i,e){
                 help += '<tr>'
-                      + '<td><kbd>'+e.key.replace(/ /g,'</kbd> <kbd>')+'</kbd></td>'
+                      + '<td>';
+                for (var i=0; i < e.key.length; i++) {
+                    if (i != 0){ help += ' or '; }
+                    help += '<kbd>' + e.key[i].replace(/ /g,'</kbd> <kbd>') + '</kbd>';
+                }
+                help += '</td>'
                       + '<td>'
                       +  (e.evt == 'disabled' ? '<span class="disabled">' : '')
                       + e.help
@@ -52,7 +57,7 @@
        $('[data-mk-'+evt+']').each(function(){
             var $e = $(this);
             var reg = {
-                key: $e.data('mk-'+evt),
+                key: $e.data('mk-'+evt).split(','),
                 evt: evt,
                 list: !!$e.data('mk-list'),
                 help: $e.text()
@@ -68,15 +73,17 @@
                     document.location = $(e.target).attr ( 'href' );
                 });
             }
-            Mousetrap.bind(reg.key, function(e){
-                // grab event and simulate it
-                $e.trigger(reg.evt);
-                return false;
-            });
+            for (var i=0; i < reg.key.length; i++) {
+                Mousetrap.bind(reg.key[i], function(e){
+                    // grab event and simulate it
+                    $e.trigger(reg.evt);
+                    return false;
+                });
+            }
        });
     }
     mk.shortcuts.push({
-        key: 'escape',
+        key: ['escape'],
         help: 'Back out / close / zoom out'
     });
     mk.register('focus');

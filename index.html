@@ -116,13 +116,13 @@ body > .container {
 
 <p>Another common example would be navigating to a next or previous page. </p>
 
-<pre><code>&lt;a <b>data-mk-click="&lt;"</b> href="?prev"&gt;Previous page&lt;/a&gt;</code></pre>
+<pre><code>&lt;a <b>data-mk-click="&lt;,p"</b> href="?prev"&gt;Previous page&lt;/a&gt;</code></pre>
 
 <div class="btn-group">
-<a data-mk-click="<" class="btn btn-default" href="?prev"><i class="glyphicon glyphicon-chevron-left"></i> Previous page</a>
-<a data-mk-click=">" class="btn btn-default" href="?next">Next page <i class="glyphicon glyphicon-chevron-right"></i></a>
+<a data-mk-click="<,p" class="btn btn-default" href="?prev"><i class="glyphicon glyphicon-chevron-left"></i> Previous page</a>
+<a data-mk-click=">,n" class="btn btn-default" href="?next">Next page <i class="glyphicon glyphicon-chevron-right"></i></a>
 </div>
-
+<p>This example also demonstrates another feature, you can declare more than one keyboard shortcut by commma seperating them. Yes this means you can't use a comma in the sequence and this is ok because it's already allocated to the Page actions, details below.</p>
 
 <p>Any of the cool features of Mousetrap are available, including key sequences. To trigger this type 'alert':</p>
 
@@ -133,7 +133,6 @@ $('#alert').click(function(){
 });
 </script>
 
-
 <h2 id="listactions">Lists actions</h2>
 
 <p>Often you have a main list of 'things', email in gmail, issues in github issues or jira, etc.
@@ -141,7 +140,7 @@ $('#alert').click(function(){
 <p> Next you want to declare you app specific actions, eg in the example below you can press <kbd>space</kbd> or <kbd>x</kbd> to toggle selection of items, <kbd>e</kbd> to focus on the input to edit it, and
  <kbd>enter</kbd> to navigate into the item.</p>
 <p>You only need to declare these once at the list level. You can dynamically added and remove items. If you aren't focused on the list and press a list action it will auto select the first item in the first list that has that action. You can have multiple lists on the one page.</p>
-<ul data-mk-li-click="x [type=checkbox], enter a" data-mk-li-focus="e [type=text]" class="list-group">
+<ul data-mk-list data-mk-click="x [type=checkbox], enter a" data-mk-focus="e [type=text]" class="list-group">
 <li class="list-group-item"><input type="checkbox"> <a href="?email1">This is email #1</a> <input value="stuff1">
 <li class="list-group-item"><input type="checkbox"> <a href="?email2">This is email #2</a> <input value="stuff2">
 <li class="list-group-item"><input type="checkbox"> <a href="?email3">This is email #3</a> <input value="stuff3">

@@ -29,7 +29,7 @@
                       + '<td>';
                 for (var i=0; i < e.key.length; i++) {
                     if (i != 0){ help += ' or '; }
-                    help += '<kbd>' + e.key[i].replace(/ /g,'</kbd> <kbd>') + '</kbd>';
+                    help += '<kbd>' + e.key[i].replace(/( |\+)/g,'</kbd> $1 <kbd>') + '</kbd>';
                 }
                 help += '</td>'
                       + '<td>'

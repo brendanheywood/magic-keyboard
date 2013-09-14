@@ -61,6 +61,7 @@ body > .container {
             <li><a href="#pageshortcuts">Page shortcuts</a></li>
             <li><a href="#listactions">List actions</a></li>
             <li><a href="#pageactions">Page actions</a></li>
+            <li><a href="#escape">Escape</a></li>
             <li><a href="#custom">Custom</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -155,8 +156,8 @@ $('#alert').click(function(){
 
 <h2 id="pageactions">Page actions</h2>
 <p>This was inspired by Jira, just press <kbd>.</kbd> or <kbd>,</kbd> key to bring up a search box of actions
- that can be applies to this page. All existing shortcuts are automatically available in this list of actions,
- but yYou can declare an link, button, or form to be a page actions by adding the <code>data-mk-action</code>
+ that can be applied to this page. All existing shortcuts are automatically available in this list of actions,
+ but you can declare an link, button, or form to be a page action by adding the <code>data-mk-action</code>
  attribute to it, or to it's ancestor. So you could add it to the root element of a drop down menu to attach
  all the items in it.</p>
 
@@ -171,6 +172,10 @@ $('#alert').click(function(){
 <a class="btn" href="#">Send to dog minder</a>
 </div>
 
+<h2 id="escape">Universal escape</h2>
+
+<p>The <kbd>escape</kbd> button should be the universal 'back out' button, like the iPhone home button. 
+ It is overridden so if you are in an input and hit it, it blurs the input WITHOUT removing it's value. If you are inside a list then it focuses on the list item. If you hit it again that blurs so you are at the 'screen' level. 
 
 
 <h2 id="custom">Custom shortcuts</h2>

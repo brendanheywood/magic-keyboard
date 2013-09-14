@@ -108,13 +108,8 @@
         var tag = $e.prop("tagName");
         // if we're in an input
         if (tag === 'INPUT' || tag === 'TEXTAREA'){
-            // if where in an input and it's empty then blur it
-            if ($e.val() ==''){
-                $e.blur();
-            // or reset it (default browser behaviour)
-            } else {
-                $e.val('');
-            }
+            $e.blur();
+            return false;
         }
     });
 

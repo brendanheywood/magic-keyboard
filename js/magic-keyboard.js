@@ -75,6 +75,9 @@
             }
             for (var i=0; i < reg.key.length; i++) {
                 Mousetrap.bind(reg.key[i], function(e){
+                    if (mk.helpEl){
+                        mk.helpEl.modal('hide');
+                    }
                     // grab event and simulate it
                     $e.trigger(reg.evt);
                     return false;

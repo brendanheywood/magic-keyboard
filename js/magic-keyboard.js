@@ -56,8 +56,9 @@
     mk.register = function(evt){
        $('[data-mk-'+evt+']').each(function(){
             var $e = $(this);
+            var e = $e.data('mk-'+evt);
             var reg = {
-                key: $e.data('mk-'+evt).split(','),
+                key: e == '/' ? ['/'] : e.split('/'),
                 evt: evt,
                 list: !!$e.data('mk-list'),
                 help: $e.text()

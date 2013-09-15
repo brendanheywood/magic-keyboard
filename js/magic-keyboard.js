@@ -120,7 +120,20 @@
         }
 
         $old.removeClass('mk-focus');
-        $new.addClass('mk-focus');
+        if ($new.length != 0){
+            $new.addClass('mk-focus');
+            var $w = $(window);
+            var off = $new.offset();
+            // Is the new item off screen below?
+            var below = $w.height() + $w.scrollTop() - off.top;
+            if (below < 0){
+                window.scrollBy(0, $w.height()/2 - below );
+            }
+            var above = off.top - $w.scrollTop(); 
+            if (above < 0){
+                window.scrollBy(0, above - $w.height()/2 );
+            }
+        }
     };
 
 

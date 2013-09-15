@@ -66,9 +66,9 @@ body > .container {
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#magichelp">Magic Help</a></li>
-            <li><a href="#pageshortcuts">Page shortcuts</a></li>
-            <li><a href="#listactions">List actions</a></li>
-            <li><a href="#pageactions">Page actions</a></li>
+            <li><a href="#page">Page actions</a></li>
+            <li><a href="#list">List actions</a></li>
+            <li><a href="#search">Action search</a></li>
             <li><a href="#escape">Escape</a></li>
             <li><a href="#custom">Custom</a></li>
           </ul>
@@ -116,7 +116,7 @@ body > .container {
 
 <div data-mk-disabled="ctrl+q" title="Logout of this application"></div>
 
-<h2 id="pageshortcuts">Page shortcuts, eg search</h2>
+<h2 id="page">Page actions, eg search</h2>
 
 <p>Add a <code>data-mk-*</code> attribute to any element, and it will wire up a click or focus event when that key is pressed. The magic help system will look at the text, value, or title of that element to generate the help text.</p>
 
@@ -128,8 +128,8 @@ body > .container {
 
 <form class="form-inline" role="form">
   <div class="form-group">
-    <label class="sr-only" for="search">Search</label>
-    <input type="search" data-mk-focus="/" class="form-control" id="search" placeholder="Look for stuff">
+    <label class="sr-only" for="s">Search</label>
+    <input type="search" data-mk-focus="/" class="form-control" id="s" placeholder="Look for stuff">
   </div>
   <button type="submit" class="btn btn-primary">Search</button>
 </form>
@@ -156,34 +156,37 @@ $('#alert').click(function(){
 });
 </script>
 
-<h2 id="listactions">Lists actions</h2>
+<h2 id="list">Lists actions</h2>
 
 <p>Often you have a main list of 'things',eg emails in gmail, issues in github or jira, etc.
- First you want to be able to navigate them with increasingly ubiqutious <kbd>j</kbd> and <kbd>k</kbd>.
+ List actions apply to only one item in a list. Declare a list by add <code>data-mk-list</code> to the containing
+ parent element, eg an <code>&lt;ul&gt;</code> but it can be any element type:</p>
 
-<p> Next you want to declare your app specific actions in the context of the selected item. eg in the example below you can press <kbd>space</kbd>
- or <kbd>x</kbd> to toggle selection of the current item, <kbd>e</kbd> to focus on it's input to edit it, and
+<pre><code>&lt;ul <b>data-mk-list="email"</b>&gt;
+  &lt;li&gt;item1
+  &lt;li&gt;item2
+  ...
+&lt;/ul&gt;
+&lt;!-- list actions go here --&gt;
+</code></pre>
+
+<p>By declaring a list it automatically registers <kbd>j</kbd> and <kbd>k</kbd> to move up and down. If no item is
+ selected <kbd>j</kbd> will select the first item, and <kbd>k</kbd> will select the last item. The selected item will be given a class
+ of <code>mk-focus</code> and if needed the page will scroll so it is visible.</p>
+
+<p>Next you can declare as many list actions as you want for each list, these are declared the same as before but with one
+ extra attribute which declares a selector for where the event will get sent to:<p>
+
+<pre><code>&lt;div data-mk-click="t" <b>data-mk-target="[type=checkbox]"</b> title="Select an email"&gt;&lt;/div&gt;</code></pre>
+
+<p>These items get declared <b>after</b> the list parent has closed, and <b>MUST</b> be siblings to the list element. Any declarations which have a target which become attached the the most recently declared list.</p>
+
+
+<p>In the example below you can press <kbd>space</kbd> or <kbd>x</kbd> to toggle selection of the current item,
+ <kbd>e</kbd> to focus on it's input to edit it, and
  <kbd>enter</kbd> to navigate into the item's link.</p>
 
-<p>You only need to declare these once at the list level. You can dynamically added and remove items.
- If you aren't focused on the list and press a list action it will auto select the first item in the
- first list that has that action. You can have multiple lists on the one page. Note that it doesn't have
-to be a <code>&lt;ul&gt;</code> element, it can be anything.</p>
-
-<p>You can for each event type a map between shortcuts and a selector that the event will be applied to.</p>
-
-<pre><code>&lt;ul <b>data-mk-list="email" data-mk-click="enter a"</b>&gt;</code></pre>
-
-<p>You can map multiple click handlers to selectors separated with a /:</p>
-
-<pre><code>&lt;ul <b>data-mk-list="email" data-mk-click="enter a / t [type=checkbox]"</b>&gt;</code></pre>
-
-<p> If the selectors are simple just seperate with a space, if you want a combo shortcut, or use a selected
- with more than ne component separate the shortcut and the selector with a comma</p>
-
-<pre><code>&lt;ul <b>data-mk-list="issues" data-mk-focus="o m g, .child .grandchild"</b>&gt;</code></pre>
-
-<ul data-mk-list="email" data-mk-click="t [type=checkbox] / enter a" data-mk-focus="e [type=text]" class="list-group">
+<ul data-mk-list="email" class="list-group">
 <li class="list-group-item"><input type="checkbox"> <a href="?email1">This is email #1</a> <input value="stuff1">
 <li class="list-group-item"><input type="checkbox"> <a href="?email2">This is email #2</a> <input value="stuff2">
 <li class="list-group-item"><input type="checkbox"> <a href="?email3">This is email #3</a> <input value="stuff3">
@@ -191,8 +194,12 @@ to be a <code>&lt;ul&gt;</code> element, it can be anything.</p>
 <li class="list-group-item"><input type="checkbox"> <a href="?email5">This is email #5</a> <input value="stuff5">
 </ul>
 
+<div data-mk-click="x"     data-mk-target="[type=checkbox]" title="Select an email"></div>
+<div data-mk-click="enter" data-mk-target="a"               title="Open email"     ></div>
+<div data-mk-focus="e"     data-mk-target="[type=text]"     title="Edit an email"  ></div>
 
-<h2 id="pageactions">Page actions</h2>
+
+<h2 id="search">Action search</h2>
 
 <p>This was inspired by Jira, just press <kbd>.</kbd> or <kbd>,</kbd> key to bring up a search box of actions
  that can be applied to this page. All existing shortcuts are automatically available in this list of actions,

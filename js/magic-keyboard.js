@@ -56,65 +56,76 @@
     mk.lists = {};
 
     mk.register = function(evt){
-       $('[data-mk-'+evt+']').each(function(){
-            var $e = $(this);
-            var e = $e.data('mk-'+evt);
-            var reg = {
-                key: e == '/' ? ['/'] : e.split('/'),
-                evt: evt,
-                target: $e.data('mk-target'),
-                help: $e.text()
-                   || $e.attr('title') 
-                   || $('[for='+$e.attr('id')+']').text()
-            };
-            if (!reg.list){
-                mk.shortcuts.push(reg);
-            } else {
-                mk.lists[reg.list] = 1;
-            }
 
-            for (var i=0; i < reg.key.length; i++) {
-                Mousetrap.bind(reg.key[i], function(e){
-                    if (mk.helpEl){
-                        mk.helpEl.modal('hide');
-                    }
-                    // grab event and simulate it
-                    if (reg.target){
-                        var $list = $e.prevAll('[data-mk-list]');
-                        var $item = $list.find('.mk-focus');
-                        if ($item.length == 0){
-                            mk.move(1);
-                            $item = $list.find('.mk-focus');
+       var selector = '[data-mk-'+mk.events.join('],[data-mk-')+']';
+       $(selector).each(function(){
+            var $e = $(this);
+            $.each(mk.events, function(i){
+                var evt = mk.events[i];
+                var e = $e.data('mk-'+evt);
+                if (!e) return;
+                var reg = {
+                    key: e == '/' ? ['/'] : e.split('/'),
+                    evt: evt,
+                    target: $e.data('mk-target'),
+                    help: $e.text()
+                       || $e.attr('title')
+                       || $('[for='+$e.attr('id')+']').text()
+                };
+                if (!reg.list){
+                    mk.shortcuts.push(reg);
+                } else {
+                    mk.lists[reg.list] = 1;
+                }
+
+                for (var i=0; i < reg.key.length; i++) {
+                    Mousetrap.bind(reg.key[i], function(e){
+                        if (mk.helpEl){
+                            mk.helpEl.modal('hide');
                         }
-                        if ($item.length != 0){
-                            var $target = $item.find(reg.target);
-                            if (reg.evt == 'click' && $target.attr('href') ){
-                                // jQuery click events aren't quite real
-                                document.location = $target.attr('href');
+                        // grab event and simulate it
+                        if (reg.target){
+                            var $list = $e.prevAll('[data-mk-list]');
+                            var $item = $list.find('.mk-focus');
+                            if ($item.length == 0){
+                                mk.move(1);
+                                $item = $list.find('.mk-focus');
+                            }
+                            if ($item.length != 0){
+                                var $target = $item.find(reg.target);
+                                if (reg.evt == 'click' && $target.attr('href') ){
+                                    // jQuery click events aren't quite real
+                                    document.location = $target.attr('href');
+                                } else {
+                                    $target.trigger(reg.evt);
+                                }
+                            }
+                        } else {
+                            if (reg.evt == 'click' && $e.attr('href') ){
+                                document.location = $e.attr('href');
                             } else {
-                                $target.trigger(reg.evt);
+                                $e.trigger(reg.evt);
                             }
                         }
-                    } else {
-                        if (reg.evt == 'click' && $e.attr('href') ){
-                            document.location = $e.attr('href');
-                        } else {
-                            $e.trigger(reg.evt);
-                        }
-                    }
-                    return false;
-                });
-            }
+                        return false;
+                    });
+                }
+            });
        });
     }
     mk.shortcuts.push({
         key: ['escape'],
         help: 'Back out / close / zoom out'
     });
-    mk.register('focus');
-    mk.register('click');
-    mk.register('disabled');
-    mk.register('noop');
+
+    // What types of events are we going to handler?
+    mk.events = [
+        'focus',
+        'click',
+        'disabled',
+        'noop'
+    ];
+    mk.register();
 
     mk.move = function(delta){
 

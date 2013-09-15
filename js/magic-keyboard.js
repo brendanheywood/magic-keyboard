@@ -62,7 +62,7 @@
             var reg = {
                 key: e == '/' ? ['/'] : e.split('/'),
                 evt: evt,
-                list: $e.data('mk-list'),
+                target: $e.data('mk-target'),
                 help: $e.text()
                    || $e.attr('title') 
                    || $('[for='+$e.attr('id')+']').text()
@@ -73,19 +73,35 @@
                 mk.lists[reg.list] = 1;
             }
 
-            if (reg.evt == 'click' && $e.attr('href') ){
-                // jQuery click events aren't quite real
-                $e.on(reg.evt, function(e){
-                    document.location = $(e.target).attr ( 'href' );
-                });
-            }
             for (var i=0; i < reg.key.length; i++) {
                 Mousetrap.bind(reg.key[i], function(e){
                     if (mk.helpEl){
                         mk.helpEl.modal('hide');
                     }
                     // grab event and simulate it
-                    $e.trigger(reg.evt);
+                    if (reg.target){
+                        var $list = $e.prevAll('[data-mk-list]');
+                        var $item = $list.find('.mk-focus');
+                        if ($item.length == 0){
+                            mk.move(1);
+                            $item = $list.find('.mk-focus');
+                        }
+                        if ($item.length != 0){
+                            var $target = $item.find(reg.target);
+                            if (reg.evt == 'click' && $target.attr('href') ){
+                                // jQuery click events aren't quite real
+                                document.location = $target.attr('href');
+                            } else {
+                                $target.trigger(reg.evt);
+                            }
+                        }
+                    } else {
+                        if (reg.evt == 'click' && $e.attr('href') ){
+                            document.location = $e.attr('href');
+                        } else {
+                            $e.trigger(reg.evt);
+                        }
+                    }
                     return false;
                 });
             }

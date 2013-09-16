@@ -186,6 +186,8 @@ $('#alert').click(function(){
  <kbd>e</kbd> to focus on it's input to edit it, and
  <kbd>enter</kbd> to navigate into the item's link.</p>
 
+<div data-mk-group="Email">
+
 <ul data-mk-list="email" class="list-group">
 <li class="list-group-item"><input type="checkbox"> <a href="?email1">This is email #1</a> <input type="text" value="stuff1">
 <li class="list-group-item"><input type="checkbox"> <a href="?email2">This is email #2</a> <input type="text" value="stuff2">
@@ -197,6 +199,26 @@ $('#alert').click(function(){
 <div data-mk-click="x"     data-mk-target="[type=checkbox]" title="Select an email"></div>
 <div data-mk-click="enter" data-mk-target="a"               title="Open email"     ></div>
 <div data-mk-focus="e"     data-mk-target="[type=text]"     title="Edit an email"  ></div>
+
+</div>
+
+<h2 id="groups">Shortcut groups</h2>
+
+<p>Often you'll want to group shortcuts together in the help modal. This is really easy, just add a <code>data-mk-group</code> attribute to any
+ ancestor element to group any actions declared inside that element. You can reuse the same group name if you want.</p>
+
+<pre><code>&lt;div <b>data-mk-group="email"</b>&gt;
+
+... email stuff
+
+&lt;/div&gt;</code></pre>
+
+<div data-mk-group="email">
+
+... email stuff
+
+</div>
+
 
 
 <h2 id="search">Action search</h2>

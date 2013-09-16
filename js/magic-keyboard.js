@@ -189,6 +189,13 @@
             return false;
         }
     });
-
+    $(document).on('focusin',function(e){
+        var $e = $(e.target);
+        var $item = $e.closest('[data-mk-list] > *');
+        if ($item.length != 0){
+            $('.mk-focus').removeClass('mk-focus');
+            $item.addClass('mk-focus');
+        }
+    });
 
 }(jQuery,document));

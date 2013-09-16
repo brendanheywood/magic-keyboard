@@ -14,22 +14,35 @@
 <h4 class="modal-title">Keyboard Shortcuts <kbd>?</kbd></h4>\
 </div><div class="modal-body"></div></div></div></div>');
             var help = '';
-            $.each(mk.shortcuts, function(i,e){
-                help += '<tr>'
-                      + '<td>';
-                for (var i=0; i < e.key.length; i++) {
-                    if (i != 0){ help += ' or '; }
-                    help += '<kbd>' + e.key[i].replace(/( |\+)/g,'</kbd> $1 <kbd>') + '</kbd>';
+
+            var groups = [];
+            for (var g in mk.groups) {
+               groups.push(g);
+            }
+
+            for (var g=0; g < groups.length; g++){
+                if (groups[g] != 'null'){
+                    help += '<tr><th><th>'+groups[g];
                 }
-                help += '</td>'
-                      + '<td>'
-                      +  (e.evt == 'disabled' ? '<span class="disabled">' : '')
-                      + e.help
-                      +  (e.evt == 'disabled' ? '</span>' : '')
-                      + (e.list || '')
-                      + '</td>'
-                      + '</tr>'
-            });
+                $.each(mk.shortcuts, function(i,e){
+                    if ((''+e.group) != groups[g]) return;
+                    help += '<tr>'
+                          + '<td>';
+                    for (var i=0; i < e.key.length; i++) {
+                        if (i != 0){ help += ' or '; }
+                        help += '<kbd>' + e.key[i].replace(/( |\+)/g,'</kbd> $1 <kbd>') + '</kbd>';
+                    }
+                    help += '</td>'
+                          + '<td>'
+                          +  (e.evt == 'disabled' ? '<span class="disabled">' : '')
+                          + e.help
+                          +  (e.evt == 'disabled' ? '</span>' : '')
+                          + '</td>'
+                          + '</tr>'
+                });
+            }
+
+
             mk.helpEl.find('.modal-body').append('<table class="help">'+help+'</table>');
             mk.helpEl.on('hidden.bs.modal', function () {
                 $('#your-modal-id').modal('hide');
@@ -44,6 +57,7 @@
 
     mk.shortcuts = [];
     mk.lists = {};
+    mk.groups = {};
 
     mk.register = function(evt){
 
@@ -62,6 +76,11 @@
                        || $e.attr('title')
                        || $('[for='+$e.attr('id')+']').text()
                 };
+                var $g = $e.closest('[data-mk-group]');
+                if ($g){
+                    reg.group = $g.data('mk-group');
+                    mk.groups[reg.group] = 1;
+                }
                 if (!reg.list){
                     mk.shortcuts.push(reg);
                 } else {
@@ -105,7 +124,8 @@
     }
     mk.shortcuts.push({
         key: ['escape'],
-        help: 'Back out / close / zoom out'
+        help: 'Back out / close / zoom out',
+        group: null
     });
 
     // What types of events are we going to handler?
@@ -156,14 +176,24 @@
 
     if (mk.lists.length != 0){
         // do this for each list!
-        mk.shortcuts.push({
-            key: ['j'],
-            help: 'Move down'
-        });
-        mk.shortcuts.push({
-            key: ['k'],
-            help: 'Move up'
-        });
+        $('[data-mk-list]').each(function(i,e){
+
+            var $g = $(e).closest('[data-mk-group]');
+            var group;
+            if ($g){
+                group = $g.data('mk-group');
+            }
+            mk.shortcuts.push({
+                key: ['j'],
+                help: 'Move down',
+                group: group
+            });
+            mk.shortcuts.push({
+                key: ['k'],
+                help: 'Move up',
+                group: group
+            });
+        })
         Mousetrap.bind('j', function(e){
             mk.move(1);
         });

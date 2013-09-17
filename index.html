@@ -30,12 +30,13 @@ kbd {
     -webkit-box-shadow: inset 0 1px 0 #FFF, 0 1px 0 #CCC;
             box-shadow: inset 0 1px 0 #FFF, 0 1px 0 #CCC;
 }
-
-.affix {
-    position: fixed;
-    top: 100px;
+kbd:active, kbd.active {
+    border-color: #AAA;
+    box-shadow: none;
+    position: relative;
+    top: 1px;
+    color: #333;
 }
-
 .help tr td:first-child {
     text-align: right;
     padding-right: 6px;
@@ -43,6 +44,16 @@ kbd {
 .disabled {
     color: #999;
 }
+
+
+/*
+ * Stuff below is for this demo
+ */
+.affix {
+    position: fixed;
+    top: 100px;
+}
+
 .mk-focus:before {
     position: absolute;
     top: 0;

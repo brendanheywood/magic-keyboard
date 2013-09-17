@@ -29,8 +29,11 @@
                     help += '<tr>'
                           + '<td>';
                     for (var i=0; i < e.key.length; i++) {
-                        if (i != 0){ help += ' or '; }
-                        help += '<kbd>' + e.key[i].replace(/( |\+)/g,'</kbd> $1 <kbd>') + '</kbd>';
+                        if (i != 0){ help += ' / '; }
+                        var key = e.key[i]
+                            .replace(/[\w\+]\S*/g, function(t){ return '' + t.charAt(0).toUpperCase() +''+ t.substr(1);})
+                            .replace(/\+\S/g, function(t){ return '&nbsp;'+t.substr(1).toUpperCase(); });
+                        help += '<kbd>' + key.replace(/( )/g,'</kbd> $1 <kbd>') + '</kbd>';
                     }
                     help += '</td>'
                           + '<td>'

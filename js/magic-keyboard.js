@@ -223,10 +223,12 @@
         }
     });
     $(document).on('focusin',function(e){
+        var $c = $('.mk-focus');
+        if ($c.length == 0) return;
         var $e = $(e.target);
         var $item = $e.closest('[data-mk-list] > *');
         if ($item.length != 0){
-            $('.mk-focus').removeClass('mk-focus');
+            $c.removeClass('mk-focus');
             $item.addClass('mk-focus');
         }
     });

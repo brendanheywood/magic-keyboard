@@ -63,7 +63,9 @@ kbd:active, kbd.active {
     bottom: 0;
     left: 0;
 }
-
+.list-group input[type="text"] {
+    border: none;
+}
 .active {
     background: #EEE;
 }
@@ -109,20 +111,35 @@ body > .container {
 </div>
   </div>
 <div class="row">
-<div class="col-md-6">
-<p>Why?</p>
+
+<div class="col-md-4">
+<h4>Why?</h4>
+<p>Magic keyboard is like <code>accesskey</code> but done right.</p>
+<p>Accesskey support across browsers is inconsistent and severly limited to just
+a single letter plus a browser defined activation key. It is inherently hard 
+to discover, and hard to produce accruate help docs. 
+</p>
+<p>Magic Keyboard works with any keyboard shortcuts, key combinations, and even sequences. 
+It has very simple declarative markup like access key, 
+
+</div>
+
+<div class="col-md-4">
+<h4>What?</h4>
 <ul>
 <li>Declare shortcuts effortlessly
 <li>Get sensible keyboard defaults for free
+<li>Keyboard shortcuts are always aligned with existing behaviour
 <li>Help docs are always aligned with real behaviour
 <li>Help docs are customised to every page
 <li>Declarative API's rock! :)
+<li>Open source MIT license
 </ul>
 
 
 </div>
-<div class="col-md-6">
-<p>If uses:</p>
+<div class="col-md-4">
+<h4>Dependencies:</h4>
 
 <ul>
 <li>jQuery
@@ -130,7 +147,7 @@ body > .container {
 <li>the excellent <a href="http://craig.is/killing/mice" target="mousetrap">MouseTrap library</a>
 </ul>
 
-<p>I was also inspired by and borrowed some styles from:</p> 
+<p>It was also partially inspired by and borrowed some css from:</p> 
 
 <a target="_blank" href="http://www.impressivewebs.com/demo-files/question-mark-js/">http://www.impressivewebs.com/demo-files/question-mark-js/</a></p>
 
@@ -141,7 +158,7 @@ body > .container {
 
 <div class="col-md-3">
 <div id="sidemenu">
-          <ul class="nav nav-stacked" data-spy="affix" data-offset-top="480">
+          <ul class="nav nav-stacked" data-spy="affix" data-offset-top="530">
             <li class="active"><a href="#magichelp">Magic Help</a></li>
             <li><a href="#page">Page actions</a></li>
             <li><a href="#list">List actions</a></li>
@@ -197,9 +214,21 @@ body > .container {
 
 <p>This example also demonstrates another feature, you can declare more than one keyboard shortcut by
  seperating them with a <code>/</code>. Note that you can still register <kbd>/</kbd> to mean something,
- typically focus on search, but you can't use / in a multi charcter sequence, but this is a probably good thing. </p>
+ typically focus on search, but you can't use / in a multi charcter sequence, but this is a good thing.</p>
 
-<p>Any of the cool features of Mousetrap are available, including key sequences. To trigger a click on this button type out 'alert':</p>
+<p>
+Any of the cool features of Mousetrap are available, including key sequences. 
+A de facto standard appearing in many web app is to use <kbd>G</kbd> and then another letter like <kbd>H</kbd>,
+ to mean Go to Home.</p>
+<p>In the example below, you can trigger a click on this button typing out 
+<nobr>
+<kbd>A</kbd>
+<kbd>L</kbd>
+<kbd>E</kbd>
+<kbd>R</kbd>
+<kbd>T</kbd>
+</nobr>
+:</p>
 
 <button id="alert" data-mk-click="a l e r t" class="btn btn-success">Show an alert</button>
 <script>
@@ -222,21 +251,25 @@ $('#alert').click(function(){
 &lt;!-- list actions go here --&gt;
 </code></pre>
 
-<p>By declaring a list it automatically registers <kbd>j</kbd> and <kbd>k</kbd> to move up and down. If no item is
- selected <kbd>j</kbd> will select the first item, and <kbd>k</kbd> will select the last item. The selected item will be given a class
- of <code>mk-focus</code> and if needed the page will scroll so it is visible.</p>
+<p>By declaring a list it automatically registers <kbd>J</kbd> and <kbd>K</kbd> to move up and down. If no item is
+ selected <kbd>J</kbd> will select the first item, and <kbd>K</kbd> will select the last item.
+All list item automatically get given a tabindex of -1, which means that can be focused by code, but not by tabbing.
+ When an item is selected it will be both focused and given a class of <code>mk-focus</code> and if needed the page
+ will scroll so it is visible. By focusing on the item, you can now use the normal <kbd>Tab</kbd> and <kbd>Shift Tab</kbd>
+shortcuts to cycle through each focusable element inside the item, which loops onto the next item without needing to tab
+through the item itself. </p> 
 
 <p>Next you can declare as many list actions as you want for each list, these are declared the same as before but with one
- extra attribute which declares a selector for where the event will get sent to:<p>
+ extra attribute which declares a selector for where the event will get delegated to:<p>
 
 <pre><code>&lt;div data-mk-click="t" <b>data-mk-target="[type=checkbox]"</b> title="Select an email"&gt;&lt;/div&gt;</code></pre>
 
 <p>These items get declared <b>after</b> the list parent has closed, and <b>MUST</b> be siblings to the list element. Any declarations which have a target which become attached the the most recently declared list.</p>
 
 
-<p>In the example below you can press <kbd>space</kbd> or <kbd>x</kbd> to toggle selection of the current item,
- <kbd>e</kbd> to focus on it's input to edit it, and
- <kbd>enter</kbd> to navigate into the item's link.</p>
+<p>In the example below you can press <kbd>Space</kbd> or <kbd>X</kbd> to toggle selection of the current item,
+ <kbd>E</kbd> to focus on it's input to edit it, and
+ <kbd>Enter</kbd> to navigate into the item's link.</p>
 
 <div data-mk-group="Email shortcuts">
 
@@ -248,9 +281,9 @@ $('#alert').click(function(){
 <li class="list-group-item"><input type="checkbox"> <a href="?email5">This is email #5</a> <input type="text" value="stuff5">
 </ul>
 
-<div data-mk-click="x"     data-mk-target="[type=checkbox]" title="Select an email"></div>
-<div data-mk-click="enter" data-mk-target="a"               title="Open email"     ></div>
-<div data-mk-focus="e"     data-mk-target="[type=text]"     title="Edit an email"  ></div>
+<div data-mk-click="x/space" data-mk-target="[type=checkbox]" title="Select an email"></div>
+<div data-mk-click="enter"   data-mk-target="a"               title="Open email"     ></div>
+<div data-mk-focus="e"       data-mk-target="[type=text]"     title="Edit an email"  ></div>
 
 </div>
 
@@ -261,16 +294,9 @@ $('#alert').click(function(){
 
 <pre><code>&lt;div <b>data-mk-group="Email shortcuts"</b>&gt;
 
-... email stuff
+... email related stuff
 
 &lt;/div&gt;</code></pre>
-
-<div data-mk-group="email">
-
-... email stuff
-
-</div>
-
 
 
 <h2 id="search">Action search</h2>
@@ -294,7 +320,7 @@ $('#alert').click(function(){
 
 <h2 id="escape">Universal escape</h2>
 
-<p>The <kbd>escape</kbd> button should be the universal 'back out 1 level' button, like the iPhone home button. 
+<p>The <kbd>Escape</kbd> button should be the universal 'back out 1 level' button, like the iPhone home button. 
  It is overridden so if you are in an input and hit it, it blurs the input WITHOUT removing it's value. If you
  are inside a list then it focuses on the list item. If you hit it again that blurs so you are at the 'screen'
  level. Only then will any custom escape handler you've registered get exectued.</p> 

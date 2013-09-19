@@ -1,11 +1,10 @@
-;(function($,doc){
+"use strict";
+(function($,doc){
 
-    if (!$.magicKeyboard) {
-        $.magicKeyboard = {};
+    if (!doc.magicKeyboard) {
+        doc.magicKeyboard = {};
     };
-    var mk = $.magicKeyboard;
-
-    var $d = $(document);
+    var mk = doc.magicKeyboard;
 
     mk.showHelp = function(){
         if (!mk.helpEl){
@@ -161,7 +160,7 @@
 
         $old.removeClass('mk-focus');
         if ($new.length != 0){
-            $new.addClass('mk-focus');
+            $new.addClass('mk-focus').focus();
             var $w = $(window);
             var off = $new.offset();
             // Is the new item off screen below?
@@ -173,12 +172,16 @@
             if (above < 0){
                 window.scrollBy(0, above - $w.height()/2 );
             }
+        } else {
+            $old.blur();
         }
     };
 
 
     if (mk.lists.length != 0){
         // do this for each list!
+        $('[data-mk-list] > *').attr('tabindex', '-1');
+        
         $('[data-mk-list]').each(function(i,e){
 
             var $g = $(e).closest('[data-mk-group]');
@@ -218,6 +221,11 @@
         var tag = $e.prop("tagName");
         // if we're in an input
         if (tag === 'INPUT' || tag === 'TEXTAREA'){
+            $e.blur();
+            $e.closest('[data-mk-list] > *').focus();
+            return false;
+        }
+        if ($e.is('[data-mk-list] > *')){
             $e.blur();
             return false;
         }
